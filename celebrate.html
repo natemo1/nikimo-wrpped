@@ -1,0 +1,147 @@
+      <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+<style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Dancing Script', cursive;
+      flex-direction: column;
+    }
+
+    .top-right-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-family: 'Dancing Script', cursive;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .top-right-button:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
+  @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 192, 203, 0.6), 0 0 30px rgba(255, 192, 203, 0.4);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 192, 203, 0.8), 0 0 40px rgba(255, 192, 203, 0.6);
+      }
+    }
+      .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 5em;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,192,203,0.6), 0 0 30px rgba(255,192,203,0.4);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+</style>
+</head>
+<body>
+    <div class="message">Happy 8 Months<br>I love you 💖</div>
+  <button class="top-right-button" onclick="location.href='index.html'">Back to Start</button>
+<canvas id="fireworks"></canvas>
+<script>
+  const canvas = document.getElementById('fireworks');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  class Particle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.color = color;
+      this.velocity = {
+        x: (Math.random() - 0.5) * 10,
+        y: (Math.random() - 0.5) * 10
+      };
+      this.alpha = 1;
+      this.friction = 0.96;
+    }
+    draw() {
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+    update() {
+      this.velocity.x *= this.friction;
+      this.velocity.y *= this.friction;
+      this.x += this.velocity.x;
+      this.y += this.velocity.y;
+      this.alpha -= 0.01;
+    }
+  }
+
+  class Firework {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height;
+      this.targetY = Math.random() * canvas.height / 2;
+      this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      this.velocityY = (Math.random() * -6) - 3;
+      this.particles = [];
+      this.exploded = false;
+    }
+    update() {
+      if (!this.exploded) {
+        this.y += this.velocityY;
+        if (this.y <= this.targetY) {
+          this.explode();
+          this.exploded = true;
+        }
+      }
+      this.particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.alpha <= 0) this.particles.splice(i, 1);
+      });
+    }
+    explode() {
+      for (let i = 0; i < 100; i++) {
+        this.particles.push(new Particle(this.x, this.y, this.color));
+      }
+    }
+  }
+
+  let fireworks = [];
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (Math.random() < 0.06) {
+      fireworks.push(new Firework());
+    }
+
+    fireworks.forEach((fw, i) => {
+      fw.update();
+      if (fw.exploded && fw.particles.length === 0) {
+        fireworks.splice(i, 1);
+      }
+    });
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+</body>
+</html>

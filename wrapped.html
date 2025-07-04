@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nikimo's Timeline</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #eafaf1 0%, #d5f4ec 100%);
+      color: #2c2c2c;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 30px;
+      font-size: 2.8em;
+      color: #2ec4b6;
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .timeline-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .timeline-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .event-card {
+      flex: 0 0 240px;
+      background: #ffffffee;
+      border-radius: 16px;
+      padding: 15px;
+      scroll-snap-align: start;
+      box-shadow: 0 4px 12px rgba(46, 196, 182, 0.25);
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .event-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(46, 196, 182, 0.35);
+    }
+
+    .date {
+      font-size: 0.9em;
+      color: #5eaaa8;
+      margin-bottom: 10px;
+    }
+
+    .discord-popup {
+      background-color: #5865F2;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 0.85em;
+      margin-top: 15px;
+      box-shadow: 0 0 8px #5865F2;
+    }
+      .photo-pop {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      opacity: 0;
+      transition: opacity 1s ease, transform 1s ease;
+      z-index: 1;
+      font-family: 'Dancing Script', cursive;
+      font-size: 0.75rem;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .photo-pop.show {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+     .celebrate-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ffffffcc;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-family: 'Dancing Script', cursive;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+  }
+
+  .celebrate-button:hover {
+    background-color: #ffffff;
+  }
+</style>
+</head>
+<body>
+    <button class="celebrate-button" onclick="window.location.href='celebrate.html'">Celebrate 🎆</button>
+
+  <h1>Nikimo's Timeline</h1>
+  <div class="timeline-container">
+    <div class="event-card">
+      <div class="date">9/13/2024</div>
+      First Kiss
+    </div>
+    <div class="event-card">
+      <div class="date">10/12/2024</div>
+      First Date
+    </div>
+    <div class="event-card">
+      <div class="date">10/21/2024</div>
+      I asked you to be my girlfriend
+    </div>
+    <div class="event-card">
+      <div class="date">10/27/2024</div>
+      Picnic at Greynold’s and walked to find boba
+    </div>
+    <div class="event-card">
+      <div class="date">11/11/2024</div>
+      Hallandale Beach/ Car meet with Tristen (where your iconic pfp came from)
+    </div>
+    <div class="event-card">
+      <div class="date">11/15/2024</div>
+      Tchaikovsky Date Night
+    </div>
+    <div class="event-card">
+      <div class="date">11/19/2024</div>
+      Sushi Boat Day
+    </div>
+    <div class="event-card">
+      <div class="date">11/21/2024</div>
+      1 month anniversary, I gave you peonies and drove you to work.
+    </div>
+    <div class="event-card">
+      <div class="date">11/24/2024</div>
+      You gave me the most thoughtful present I have ever received (thanks, baby)
+    </div>
+    <div class="event-card">
+      <div class="date">12/08/2024</div>
+      Day I said I love you through Discord smh
+      <div class="discord-popup">🔔 new message from: me<br>"I love you."</div>
+    </div>
+    <div class="event-card">
+      <div class="date">1/1/2025</div>
+      Came back from India, celebrated New Year's. My car broke down. Lovely start to the new year.
+    </div>
+    <div class="event-card">
+      <div class="date">1/12/2025</div>
+      Vizcaya, where I took the best photo lol
+    </div>
+    <div class="event-card">
+      <div class="date">1/20/2025</div>
+      Your Birthday, where we ate Italian food by the water. I'll make next year's better.
+    </div>
+    <div class="event-card">
+      <div class="date">1/26/2025</div>
+      Opened Prismatic together
+    </div>
+    <div class="event-card">
+      <div class="date">2/7–2/9/2025</div>
+      Our First Megacon together
+    </div>
+    <div class="event-card">
+      <div class="date">2/23/2025</div>
+      Our Valentines Day - Thank you for the wallet… I needed it
+    </div>
+    <div class="event-card">
+      <div class="date">3/11/2025</div>
+      Tried making matcha cookies and got sick… (never again)
+    </div>
+    <div class="event-card">
+      <div class="date">3/20/2025</div>
+      Met Neha that day. Glad that went well.
+    </div>
+    <div class="event-card">
+      <div class="date">3/22/2025</div>
+      Beach Cleanup
+    </div>
+    <div class="event-card">
+      <div class="date">4/20/2025</div>
+      Went to Church with my mom
+    </div>
+    <div class="event-card">
+      <div class="date">5/6/2025</div>
+      Malcom Todd
+    </div>
+    <div class="event-card">
+      <div class="date">6/5/2025</div>
+      Almost went to Morikami. You almost went to Canada. Both Failed.
+    </div>
+    <div class="event-card">
+      <div class="date">6/14–6/20/2025</div>
+      Georgia and Orlando Road Trip
+    </div>
+    </div>
+  </div>
+  <script>
+  
+const totalPhotos = 48; // or however many photos you have
+const photos = Array.from({ length: totalPhotos }, (_, i) => `wrapped-photos/photo${i + 1}.jpg`);
+
+const usedPositions = [];
+
+function overlapsExisting(left) {
+  const threshold = 15; // prevent closeness in percent
+  return usedPositions.some(pos => Math.abs(pos - left) < threshold);
+}
+
+function createFloatingPhoto(src, delay) {
+  const img = document.createElement('img');
+  img.src = src;
+  img.className = 'photo-pop';
+
+  let left;
+  let attempts = 0;
+
+  do {
+    left = Math.floor(Math.random() * 80) + 10;
+    attempts++;
+    if (attempts > 50) break; // fail-safe
+  } while (overlapsExisting(left));
+
+  usedPositions.push(left);
+  if (usedPositions.length > 6) usedPositions.shift();
+
+  img.style.bottom = '20px';
+  img.style.left = `${left}%`;
+  img.style.position = 'fixed';
+  img.style.zIndex = 0;
+
+  document.body.appendChild(img);
+
+  setTimeout(() => img.classList.add('show'), delay);
+  setTimeout(() => {
+    img.classList.remove('show');
+    setTimeout(() => img.remove(), 1000);
+  }, delay + 3000);
+}
+
+let index = 0;
+setInterval(() => {
+  createFloatingPhoto(photos[index % photos.length], 100);
+  createFloatingPhoto(photos[(index + 1) % photos.length], 400);
+  index += 2;
+}, 3500);
+</script>
+
+</script>
+</body>
+</html>

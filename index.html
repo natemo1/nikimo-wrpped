@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal Intro - Nikimo’s Wrapped</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #7FFFD4;
+      font-family: monospace;
+      margin: 0;
+      padding: 20px;
+    }
+    #terminal {
+      max-width: 800px;
+      margin: 0 auto;
+      white-space: pre-line;
+    }
+    input {
+      background: none;
+      border: none;
+      color: #7FFFD4;
+      font-family: monospace;
+      font-size: 16px;
+      outline: none;
+      width: 100%;
+    }
+    .duck-narrator {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      align-items: flex-end;
+      z-index: 1000;
+    }
+    #duck-img {
+      width: 100px;
+      height: auto;
+    }
+    .speech-bubble {
+      background: white;
+      color: black;
+      font-size: 14px;
+      padding: 10px 15px;
+      border-radius: 20px;
+      margin-left: 10px;
+      max-width: 220px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    }
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #05acf2;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      color: #7FFFD4;
+      font-family: monospace;
+      z-index: 9999;
+    .loader img {
+      height: 120px;
+      margin: 0 10px;
+    }
+    .loader p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal"></div>
+  <div class="duck-narrator">
+    <div class="speech-bubble" id="duckBubble">Welcome to the system 🐤</div>
+  </div>
+  <div id="loadingScreen">
+    <div class="loader">
+      <img id="duck" src="duck-walk/duck1.png" alt="Duck walking">
+      <img id="dash" src="dachshund-jump/dash1.png" alt="Dachshund jumping">
+      <p>Loading Nikimo's mainframe...</p>
+    </div>
+  </div>
+
+  <script>
+    const terminal = document.getElementById('terminal');
+    const duckBubble = document.getElementById('duckBubble');
+    const questions = [
+      {
+        q: "When did we start dating? (MM/DD/YY)",
+        answers: ["10/21/2024", "11/04/2024"]
+      },
+      {
+        q: "Nicknames you call me",
+        answers: ["dog", "bozo", "babe", "baby", "nathaniel", "mo", "the love of your life"]
+      },
+      {
+        q: "How much do you hit me?\n1. Whenever you feel like it\n2. All the time\n3. Often\n4. Sometimes\n5. Barely\n6. Never",
+        answers: ["1"],
+        recheck: ["you sure about that?", "last chance...at risk of losing access to the nikimo files"]
+      },
+      {
+        q: "The day we both said I love you (MM/DD/YY)",
+        answers: ["12/08/2024"],
+        hints: [
+          "Hint: The day you left to India.",
+          "Last Hint: Early December 2024.",
+          "Answer: 12/08/2024 (it's ok, this one was a little tricky)"
+        ]
+      }
+    ];
+
+    let i = 0;
+    let hintIndex = 0;
+    let recheckCount = 0;
+
+    function askQuestion() {
+      if (i >= questions.length) {
+        terminal.innerHTML += "\n✅ Access Granted to Nikimo’s Wrapped\n>> Redirecting...";
+        duckBubble.innerText = "Access granted. Welcome inside.";
+        document.getElementById("loadingScreen").style.display = "flex";
+        animateDuckDash();
+        setTimeout(() => {
+          window.location.href = 'wrapped.html';
+        }, 5000);
+        return;
+      }
+
+      const q = questions[i];
+      duckBubble.innerText = "Question " + (i + 1);
+      terminal.innerHTML += `\n${q.q}\n> `;
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      terminal.appendChild(input);
+      input.focus();
+
+      input.addEventListener('keydown', function handler(e) {
+        if (e.key === 'Enter') {
+          const val = input.value.trim();
+          terminal.innerHTML += val + "\n";
+          input.remove();
+          input.removeEventListener('keydown', handler);
+
+          if (q.recheck && val === "6") {
+            if (recheckCount < q.recheck.length) {
+              terminal.innerHTML += q.recheck[recheckCount] + "\n> ";
+              recheckCount++;
+              terminal.appendChild(input);
+              input.value = '';
+              input.focus();
+              input.addEventListener('keydown', handler);
+              return;
+            }
+          }
+
+          if (!q.answers || q.answers.some(ans => ans.toLowerCase() === val.toLowerCase())) {
+            if (i === 2 && val === "1") {
+              terminal.innerHTML += "sadist\n";
+            }
+            hintIndex = 0;
+            recheckCount = 0;
+            i++;
+            askQuestion();
+          } else {
+            if (q.hints && hintIndex < q.hints.length) {
+              terminal.innerHTML += `${q.hints[hintIndex]}\n> `;
+              hintIndex++;
+              terminal.appendChild(input);
+              input.value = '';
+              input.focus();
+              input.addEventListener('keydown', handler);
+            } else if (q.hints && hintIndex === q.hints.length) {
+              terminal.innerHTML += `${q.hints[hintIndex - 1]}\n> `;
+              hintIndex++;
+              terminal.appendChild(input);
+              input.value = '';
+              input.focus();
+              input.addEventListener('keydown', function finalHandler(e) {
+                if (e.key === 'Enter') {
+                  const finalVal = input.value.trim();
+                  terminal.innerHTML += finalVal + "\n";
+                  input.remove();
+                  input.removeEventListener('keydown', finalHandler);
+                  if (finalVal === "12/08/2024") {
+                    terminal.innerHTML += "Nikimo's file loading...\n";
+                    document.getElementById("loadingScreen").style.display = "flex";
+                    animateDuckDash();
+                    setTimeout(() => {
+                      window.location.href = 'wrapped.html';
+                    }, 5000);
+                  } else {
+                    terminal.innerHTML += "You got it wrong goofy. Moving on...\n";
+                    i++;
+                    askQuestion();
+                  }
+                }
+              });
+            } else {
+              terminal.innerHTML += "You got it wrong goofy. Moving on...\n";
+              i++;
+              askQuestion();
+            }
+          }
+        }
+      });
+    }
+
+    terminal.innerHTML = "Initiate our love ...\n";
+    setTimeout(askQuestion, 1000);
+
+    // Frame switching for duck & dachshund animation
+    let duckFrame = 1;
+    let dashFrame = 1;
+
+function animateDuckDash() {
+  setInterval(() => {
+    duckFrame = duckFrame === 4 ? 1 : duckFrame + 1;  // 4 duck frames
+    dashFrame = dashFrame === 5 ? 1 : dashFrame + 1;  // 5 dachshund frames
+
+    document.getElementById('duck').src = `duck-walk/duck${duckFrame}.png`;
+    document.getElementById('dash').src = `dachshund-jump/dash${dashFrame}.png`;
+  }, 300);
+}
+
+  </script>
+</body>
+</html>
+}
